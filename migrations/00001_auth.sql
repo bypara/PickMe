@@ -6,6 +6,7 @@ CREATE TABLE users (
     created_at timestamptz NOT NULL DEFAULT now()
 );
 
+-- В БД хранится 32-байтовый SHA-256 токена. Сам токен остаётся в cookie браузера.
 CREATE TABLE sessions (
     token_hash bytea PRIMARY KEY,
     user_id bigint NOT NULL REFERENCES users (id) ON DELETE CASCADE,

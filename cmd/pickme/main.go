@@ -18,6 +18,7 @@ import (
 
 func main() {
 	logger := slog.New(slog.NewTextHandler(os.Stderr, nil))
+	// Docker останавливает контейнер через SIGTERM, а при локальном запуске работает Ctrl+C.
 	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
 	defer stop()
 
@@ -35,6 +36,7 @@ func run(ctx context.Context, logger *slog.Logger) error {
 
 	poolConfig, err := pgxpool.ParseConfig(cfg.DatabaseURL)
 	if err != nil {
+		// В строке подключения может быть пароль, поэтому в журнал попадёт общее сообщение.
 		return errors.New("invalid DATABASE_URL")
 	}
 
@@ -44,6 +46,7 @@ func run(ctx context.Context, logger *slog.Logger) error {
 	}
 	defer db.Close()
 
+	// Пул подключается по мере запросов. Ping проверяет доступность БД до запуска API.
 	startupCtx, cancelStartup := context.WithTimeout(ctx, 5*time.Second)
 	err = db.Ping(startupCtx)
 	cancelStartup()
@@ -66,6 +69,7 @@ func run(ctx context.Context, logger *slog.Logger) error {
 	select {
 	case err = <-serveError:
 	case <-ctx.Done():
+		// Контекст запуска уже отменён. Даём активным запросам отдельный срок на завершение.
 		shutdownCtx, cancelShutdown := context.WithTimeout(context.Background(), 10*time.Second)
 		defer cancelShutdown()
 		if err := server.Shutdown(shutdownCtx); err != nil {

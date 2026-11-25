@@ -1,4 +1,5 @@
 FROM golang:1.27.4-alpine AS go-base
+# Статические бинарники могут запускаться в минимальных образах на базе scratch.
 ENV CGO_ENABLED=0
 WORKDIR /src
 
@@ -10,6 +11,7 @@ COPY internal ./internal
 RUN go build -trimpath -o /out/pickme ./cmd/pickme
 
 FROM go-base AS migrate-build
+# Для миграций PickMe достаточно драйвера PostgreSQL.
 RUN go install -tags='no_clickhouse no_libsql no_mssql no_mysql no_sqlite3 no_vertica no_ydb' \
     github.com/pressly/goose/v3/cmd/goose@v3.30.1
 

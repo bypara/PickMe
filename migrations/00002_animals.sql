@@ -6,6 +6,7 @@ CREATE TABLE animals (
     breed text NOT NULL,
     created_by bigint NOT NULL REFERENCES users (id),
     created_at timestamptz NOT NULL DEFAULT now(),
+    -- Проверяем длину в символах и запрещаем пробелы по краям полей.
     CONSTRAINT animals_name_length CHECK (
         char_length(name) BETWEEN 1 AND 100 AND name !~ '^[[:space:]]|[[:space:]]$'
     ),
@@ -17,8 +18,10 @@ CREATE TABLE animals (
     )
 );
 
+-- При совпадении времени создания порядок определяет ID.
 CREATE INDEX animals_catalog_order_idx ON animals (created_at DESC, id DESC);
 
+-- Внешний ключ одновременно служит первичным, поэтому у животного может быть одно фото.
 CREATE TABLE animal_photos (
     animal_id bigint PRIMARY KEY REFERENCES animals (id) ON DELETE CASCADE,
     content_type text NOT NULL,
