@@ -1,0 +1,25 @@
+# Local instructions and environment
+/AGENTS.md
+.env
+.env.*
+!.env.example
+
+# Local IDE and operating-system files
+.idea/
+.vscode/
+.vs/
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Build, test, and development output
+/bin/
+/build/
+/dist/
+.cache/
+tmp/
+node_modules/
+coverage.out
+*.exe
+*.test
+*.log
