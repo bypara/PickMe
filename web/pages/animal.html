@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Карточка животного — PickMe</title>
+    <link rel="stylesheet" href="/static/pickme.css">
+    <link rel="stylesheet" href="/static/animals.css">
+    <script type="module" src="/static/navigation.js"></script>
+    <script type="module" src="/static/animal-detail.js"></script>
+  </head>
+  <body>
+    <div class="site-frame">
+      <header class="site-header">
+        <div class="viewer" data-user-profile hidden>
+          <span class="viewer-avatar" data-user-initials aria-hidden="true"></span>
+          <div class="viewer-details">
+            <strong data-user-name></strong>
+            <span>Волонтёр</span>
+          </div>
+        </div>
+        <a class="brand site-brand" href="/" aria-label="PickMe — каталог животных">
+          <span class="brand-mark" aria-hidden="true"></span>PickMe
+        </a>
+        <nav class="site-actions" aria-label="Аккаунт">
+          <a class="button button-primary" href="/login" data-login-link>Войти</a>
+          <a class="button button-primary add-animal-button" href="/animals/new" aria-label="Добавить животное" data-add-animal hidden>
+            <span class="add-icon" aria-hidden="true">+</span><span class="add-button-label">Добавить животное</span>
+          </a>
+          <button class="button button-outline signout-button" type="button" aria-label="Выйти" data-logout hidden>
+            <span class="signout-icon" aria-hidden="true">→</span>
+          </button>
+        </nav>
+      </header>
+      <main class="catalog-shell">
+        <a class="catalog-back" href="/"><span aria-hidden="true">←</span> К животным</a>
+        <p class="form-error" data-navigation-error role="alert" hidden></p>
+        <p class="catalog-status" data-detail-status role="status">Загружаем карточку…</p>
+        <article class="animal-detail" data-animal-detail hidden>
+          <div class="animal-media animal-detail-media">
+            <img class="animal-photo" data-animal-photo alt="" decoding="async" hidden>
+            <span class="animal-placeholder" data-photo-placeholder>
+              <span class="brand-mark" aria-hidden="true"></span>Фото пока нет
+            </span>
+          </div>
+          <div class="animal-detail-content">
+            <h1 data-animal-name></h1>
+            <dl>
+              <div><dt>Порода</dt><dd data-animal-breed></dd></div>
+              <div><dt>Где нашли</dt><dd data-animal-location></dd></div>
+            </dl>
+          </div>
+        </article>
+      </main>
+    </div>
+  </body>
+</html>

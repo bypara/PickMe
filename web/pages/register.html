@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Регистрация — PickMe</title>
+    <link rel="stylesheet" href="/static/pickme.css">
+    <link rel="stylesheet" href="/static/auth.css">
+    <script type="module" src="/static/auth-page.js"></script>
+  </head>
+  <body class="auth-body auth-body-register">
+    <main class="auth-layout">
+      <aside class="auth-hero" aria-label="Приют PickMe">
+        <div class="auth-photo">
+          <img src="/static/auth-hero.webp" alt="" width="1086" height="1448">
+          <a class="brand auth-brand" href="/" aria-label="PickMe — каталог животных">
+            <span class="brand-mark" aria-hidden="true"></span>PickMe
+          </a>
+        </div>
+        <div class="auth-message">
+          <p>Пусть у каждого<br>будет свой человек.</p>
+          <span>Приют для животных «PickMe»</span>
+        </div>
+      </aside>
+
+      <section class="auth-content" aria-labelledby="page-title">
+        <div class="auth-panel">
+          <p class="auth-eyebrow">Кабинет волонтёра</p>
+          <h1 id="page-title">Регистрация</h1>
+          <p class="auth-lead">Создайте аккаунт волонтёра приюта.</p>
+
+          <form class="auth-form" method="post" data-auth-form="register">
+            <div class="field">
+              <label for="full-name">Имя и фамилия</label>
+              <input id="full-name" name="full_name" type="text" autocomplete="name" required
+                aria-describedby="full-name-error">
+              <p id="full-name-error" class="field-error" data-error-for="full_name" hidden></p>
+            </div>
+            <div class="field">
+              <label for="email">Почта</label>
+              <input id="email" name="email" type="email" autocomplete="username" maxlength="254" required
+                placeholder="name@example.com" aria-describedby="email-error">
+              <p id="email-error" class="field-error" data-error-for="email" hidden></p>
+            </div>
+            <div class="field">
+              <label for="password">Пароль</label>
+              <div class="password-field">
+                <input id="password" name="password" type="password" autocomplete="new-password" required
+                  placeholder="От 12 до 128 символов" aria-describedby="password-error">
+                <button type="button" class="password-toggle" aria-label="Показать пароль" aria-controls="password" data-password-toggle>
+                  <span class="eye-icon" aria-hidden="true"></span>
+                </button>
+              </div>
+              <p id="password-error" class="field-error" data-error-for="password" hidden></p>
+            </div>
+            <div class="field">
+              <label for="password-confirmation">Повторите пароль</label>
+              <div class="password-field">
+                <input id="password-confirmation" name="password_confirmation" type="password" autocomplete="new-password" required
+                  placeholder="Введите пароль ещё раз" aria-describedby="password-confirmation-error">
+                <button type="button" class="password-toggle" aria-label="Показать пароль" aria-controls="password-confirmation" data-password-toggle>
+                  <span class="eye-icon" aria-hidden="true"></span>
+                </button>
+              </div>
+              <p id="password-confirmation-error" class="field-error" data-error-for="password_confirmation" hidden></p>
+            </div>
+            <p class="form-error" data-form-error role="alert" hidden></p>
+            <button class="button button-primary" type="submit" disabled>Зарегистрироваться</button>
+          </form>
+          <p class="auth-switch">Уже есть аккаунт? <a href="/login">Войти</a></p>
+        </div>
+        <p class="auth-footer">Вместе мы помогаем животным найти дом.</p>
+      </section>
+    </main>
+  </body>
+</html>
