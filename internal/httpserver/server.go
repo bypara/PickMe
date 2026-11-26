@@ -2,17 +2,19 @@ package httpserver
 
 import (
 	"context"
-	"encoding/json"
 	"log/slog"
 	"net/http"
 	"time"
 
+	"github.com/bypara/PickMe/internal/auth"
+	"github.com/bypara/PickMe/internal/httpapi"
 	"github.com/jackc/pgx/v5/pgxpool"
 )
 
 // New создаёт маршруты API и подключает общую проверку источника небезопасных HTTP-методов.
 func New(db *pgxpool.Pool, logger *slog.Logger) http.Handler {
 	mux := http.NewServeMux()
+	auth.New(db, logger).RegisterRoutes(mux)
 	mux.HandleFunc("GET /api/health", func(w http.ResponseWriter, r *http.Request) {
 		// Проверяем доступность БД с коротким таймаутом, чтобы Compose быстро увидел сбой.
 		ctx, cancel := context.WithTimeout(r.Context(), 2*time.Second)
@@ -21,27 +23,15 @@ func New(db *pgxpool.Pool, logger *slog.Logger) http.Handler {
 		w.Header().Set("Cache-Control", "no-store")
 		if err := db.Ping(ctx); err != nil {
 			logger.Error("database health check failed", "error", err)
-			writeError(w, http.StatusServiceUnavailable, "database_unavailable", "Database unavailable")
+			httpapi.WriteError(w, http.StatusServiceUnavailable, "database_unavailable", "Database unavailable")
 			return
 		}
-		writeJSON(w, http.StatusOK, map[string]string{"status": "ok"})
+		httpapi.WriteJSON(w, http.StatusOK, map[string]string{"status": "ok"})
 	})
 
 	originProtection := http.NewCrossOriginProtection()
 	originProtection.SetDenyHandler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		writeError(w, http.StatusForbidden, "cross_origin_request", "Cross-origin request rejected")
+		httpapi.WriteError(w, http.StatusForbidden, "cross_origin_request", "Cross-origin request rejected")
 	}))
 	return originProtection.Handler(mux)
-}
-
-func writeError(w http.ResponseWriter, status int, code, message string) {
-	writeJSON(w, status, map[string]map[string]string{
-		"error": {"code": code, "message": message},
-	})
-}
-
-func writeJSON(w http.ResponseWriter, status int, value any) {
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(status)
-	_ = json.NewEncoder(w).Encode(value)
 }
