@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/bypara/PickMe/internal/animals"
 	"github.com/bypara/PickMe/internal/auth"
 	"github.com/bypara/PickMe/internal/httpapi"
 	"github.com/jackc/pgx/v5/pgxpool"
@@ -16,6 +17,8 @@ func New(db *pgxpool.Pool, logger *slog.Logger, cookieSecure bool) http.Handler 
 	mux := http.NewServeMux()
 	accounts := auth.New(db, logger, cookieSecure)
 	accounts.RegisterRoutes(mux)
+	catalog := animals.New(db, logger)
+	catalog.RegisterReadRoutes(mux)
 	mux.HandleFunc("GET /api/health", func(w http.ResponseWriter, r *http.Request) {
 		// Проверяем доступность БД с коротким таймаутом, чтобы Compose быстро увидел сбой.
 		ctx, cancel := context.WithTimeout(r.Context(), 2*time.Second)
