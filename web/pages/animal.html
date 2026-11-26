@@ -24,7 +24,12 @@
         </a>
         <nav class="site-actions" aria-label="Аккаунт">
           <a class="button button-primary" href="/login" data-login-link>Войти</a>
-          <button class="button button-outline" type="button" data-logout hidden>Выйти</button>
+          <a class="button button-primary add-animal-button" href="/animals/new" aria-label="Добавить животное" data-add-animal hidden>
+            <span class="add-icon" aria-hidden="true">+</span><span class="add-button-label">Добавить животное</span>
+          </a>
+          <button class="button button-outline signout-button" type="button" aria-label="Выйти" data-logout hidden>
+            <span class="signout-icon" aria-hidden="true">→</span>
+          </button>
         </nav>
       </header>
       <main class="catalog-shell">
