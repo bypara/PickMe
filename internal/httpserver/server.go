@@ -18,7 +18,7 @@ func New(db *pgxpool.Pool, logger *slog.Logger, cookieSecure bool) http.Handler 
 	accounts := auth.New(db, logger, cookieSecure)
 	accounts.RegisterRoutes(mux)
 	catalog := animals.New(db, logger)
-	catalog.RegisterReadRoutes(mux)
+	catalog.RegisterRoutes(mux, accounts)
 	mux.HandleFunc("GET /api/health", func(w http.ResponseWriter, r *http.Request) {
 		// Проверяем доступность БД с коротким таймаутом, чтобы Compose быстро увидел сбой.
 		ctx, cancel := context.WithTimeout(r.Context(), 2*time.Second)

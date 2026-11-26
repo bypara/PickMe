@@ -6,6 +6,7 @@ import (
 	"strconv"
 	"time"
 
+	"github.com/bypara/PickMe/internal/auth"
 	"github.com/bypara/PickMe/internal/httpapi"
 	"github.com/jackc/pgx/v5/pgxpool"
 )
@@ -30,11 +31,12 @@ func New(db *pgxpool.Pool, logger *slog.Logger) *Handler {
 	return &Handler{db: db, logger: logger}
 }
 
-// RegisterReadRoutes подключает публичные маршруты каталога, карточек и фотографий.
-func (h *Handler) RegisterReadRoutes(mux *http.ServeMux) {
+// RegisterRoutes открывает каталог для гостей и проверяет сессию перед добавлением.
+func (h *Handler) RegisterRoutes(mux *http.ServeMux, accounts *auth.Handler) {
 	mux.HandleFunc("GET /api/animals", h.list)
 	mux.HandleFunc("GET /api/animals/{id}", h.get)
 	mux.HandleFunc("GET /api/animals/{id}/photo", h.getPhoto)
+	mux.Handle("POST /api/animals", accounts.WithSession(auth.RequireUser(http.HandlerFunc(h.create))))
 }
 
 func (h *Handler) internalError(w http.ResponseWriter, operation string, err error) {
