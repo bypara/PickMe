@@ -3,9 +3,11 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>PickMe</title>
+    <title>Животные — PickMe</title>
     <link rel="stylesheet" href="/static/pickme.css">
+    <link rel="stylesheet" href="/static/animals.css">
     <script type="module" src="/static/navigation.js"></script>
+    <script type="module" src="/static/catalog.js"></script>
   </head>
   <body>
     <div class="site-frame">
@@ -30,8 +32,32 @@
         <h1>Животные</h1>
         <p class="catalog-lead">Подопечные приюта, которым мы помогаем найти дом.</p>
         <p class="form-error" data-navigation-error role="alert" hidden></p>
-        <p class="catalog-status">Каталог появится после подключения данных о животных.</p>
+        <div class="catalog-count-line" data-catalog-summary hidden>
+          <p class="catalog-count" data-catalog-count></p>
+        </div>
+        <p class="catalog-status" data-catalog-status role="status">Загружаем животных…</p>
+        <ul class="animal-grid" aria-label="Животные приюта" data-animal-grid></ul>
       </main>
     </div>
+    <template id="animal-card-template">
+      <li>
+        <a class="animal-card">
+          <div class="animal-media">
+            <img class="animal-photo" data-animal-photo alt="" loading="lazy" decoding="async" hidden>
+            <span class="animal-placeholder" data-photo-placeholder>
+              <span class="brand-mark" aria-hidden="true"></span>Фото пока нет
+            </span>
+            <dl class="animal-preview">
+              <div><dt>Порода</dt><dd data-animal-breed></dd></div>
+              <div><dt>Где нашли</dt><dd data-animal-location></dd></div>
+            </dl>
+          </div>
+          <div class="animal-caption">
+            <h2 data-animal-name></h2>
+            <span class="animal-arrow" aria-hidden="true">↗</span>
+          </div>
+        </a>
+      </li>
+    </template>
   </body>
 </html>

@@ -1,0 +1,186 @@
+.catalog-count-line {
+  display: flex;
+  justify-content: flex-end;
+  margin: 20px 0;
+}
+
+.catalog-count {
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: var(--muted-surface);
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.catalog-empty {
+  padding: 28px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--surface);
+}
+
+.animal-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.animal-card {
+  display: block;
+  height: 100%;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--surface);
+  text-decoration: none;
+  transition: border-color 160ms ease, box-shadow 160ms ease;
+}
+
+.animal-card:focus-visible {
+  border-color: var(--focus);
+  box-shadow: 0 4px 16px rgb(32 62 61 / 12%);
+}
+
+.animal-media {
+  position: relative;
+  display: grid;
+  aspect-ratio: 1.88;
+  overflow: hidden;
+  background: var(--muted-surface);
+}
+
+.animal-photo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.animal-placeholder {
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  gap: 7px;
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+.animal-placeholder .brand-mark { background: #cbe5dd; }
+
+.animal-preview {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  left: 10px;
+  margin: 0;
+  padding: 0 12px;
+  border-radius: 10px;
+  background: var(--surface);
+  font-size: 0.75rem;
+  line-height: 1.35;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(4px);
+  transition: opacity 160ms ease, transform 160ms ease;
+}
+
+.animal-preview div {
+  display: grid;
+  grid-template-columns: 5.2rem minmax(0, 1fr);
+  gap: 8px;
+  padding: 8px 0;
+}
+
+.animal-preview div + div { border-top: 1px solid var(--border); }
+.animal-preview dt, .animal-detail dt { color: var(--muted); }
+
+.animal-preview dd {
+  display: -webkit-box;
+  overflow: hidden;
+  margin: 0;
+  overflow-wrap: anywhere;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.animal-caption {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 10px 14px 11px 16px;
+}
+
+.animal-caption h2 {
+  margin: 0;
+  overflow-wrap: anywhere;
+  font-size: clamp(1.1rem, 1.42vw, 1.35rem);
+  line-height: 1.25;
+}
+
+.animal-arrow {
+  display: grid;
+  flex: none;
+  width: 32px;
+  height: 32px;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--muted-surface);
+  font-size: 1.05rem;
+}
+
+.animal-card:focus-visible .animal-preview { opacity: 1; transform: none; }
+.animal-card:focus-visible .animal-arrow { background: var(--accent); }
+
+@media (hover: hover) {
+  .animal-card:hover { border-color: var(--accent-hover); box-shadow: 0 4px 16px rgb(32 62 61 / 12%); }
+  .animal-card:hover .animal-preview { opacity: 1; transform: none; }
+  .animal-card:hover .animal-arrow { background: var(--accent); }
+}
+
+.catalog-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  color: var(--ink);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.catalog-back:hover { text-decoration: underline; }
+
+.animal-detail {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+  gap: clamp(24px, 5vw, 72px);
+  align-items: center;
+  margin-top: 20px;
+}
+
+.animal-detail-media { aspect-ratio: 4 / 3; border-radius: 16px; }
+.animal-detail-content h1 { overflow-wrap: anywhere; }
+.animal-detail dl { margin: 22px 0 0; }
+.animal-detail dl div { padding: 15px 0; border-top: 1px solid var(--border); }
+.animal-detail dt { margin-bottom: 3px; font-size: 0.86rem; }
+.animal-detail dd { margin: 0; overflow-wrap: anywhere; font-size: 1.15rem; line-height: 1.45; }
+
+@media (max-width: 950px) {
+  .animal-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 620px) {
+  .animal-detail { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 550px) {
+  .animal-grid { grid-template-columns: 1fr; gap: 14px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animal-card, .animal-preview { transition: none; }
+}
