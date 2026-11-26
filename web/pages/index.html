@@ -4,12 +4,34 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>PickMe</title>
+    <link rel="stylesheet" href="/static/pickme.css">
+    <script type="module" src="/static/navigation.js"></script>
   </head>
   <body>
-    <main>
-      <h1>PickMe</h1>
-      <p>Управление приютом для животных</p>
-      <p><a href="/api/health">Проверить API и подключение к базе</a></p>
-    </main>
+    <div class="site-frame">
+      <header class="site-header">
+        <div class="viewer" data-user-profile hidden>
+          <span class="viewer-avatar" data-user-initials aria-hidden="true"></span>
+          <div class="viewer-details">
+            <strong data-user-name></strong>
+            <span>Волонтёр</span>
+          </div>
+        </div>
+        <a class="brand site-brand" href="/" aria-label="PickMe — каталог животных">
+          <span class="brand-mark" aria-hidden="true"></span>PickMe
+        </a>
+        <nav class="site-actions" aria-label="Аккаунт">
+          <a class="button button-primary" href="/login" data-login-link>Войти</a>
+          <button class="button button-outline" type="button" data-logout hidden>Выйти</button>
+        </nav>
+      </header>
+      <main class="catalog-shell">
+        <p class="catalog-eyebrow">С заботой о каждом</p>
+        <h1>Животные</h1>
+        <p class="catalog-lead">Подопечные приюта, которым мы помогаем найти дом.</p>
+        <p class="form-error" data-navigation-error role="alert" hidden></p>
+        <p class="catalog-status">Каталог появится после подключения данных о животных.</p>
+      </main>
+    </div>
   </body>
 </html>
