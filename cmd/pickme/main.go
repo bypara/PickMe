@@ -56,7 +56,7 @@ func run(ctx context.Context, logger *slog.Logger) error {
 
 	server := &http.Server{
 		Addr:              cfg.HTTPAddr,
-		Handler:           httpserver.New(db, logger),
+		Handler:           httpserver.New(db, logger, cfg.CookieSecure),
 		ReadHeaderTimeout: 5 * time.Second,
 		IdleTimeout:       60 * time.Second,
 	}

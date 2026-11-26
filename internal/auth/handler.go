@@ -10,8 +10,9 @@ import (
 
 // Handler связывает маршруты аккаунта с PostgreSQL.
 type Handler struct {
-	db     *pgxpool.Pool
-	logger *slog.Logger
+	db           *pgxpool.Pool
+	logger       *slog.Logger
+	cookieSecure bool
 }
 
 type account struct {
@@ -21,13 +22,16 @@ type account struct {
 }
 
 // New создаёт обработчик аккаунтов с общим пулом соединений приложения.
-func New(db *pgxpool.Pool, logger *slog.Logger) *Handler {
-	return &Handler{db: db, logger: logger}
+func New(db *pgxpool.Pool, logger *slog.Logger, cookieSecure bool) *Handler {
+	return &Handler{db: db, logger: logger, cookieSecure: cookieSecure}
 }
 
 // RegisterRoutes добавляет маршруты аккаунтов к общему маршрутизатору API.
 func (h *Handler) RegisterRoutes(mux *http.ServeMux) {
-	mux.HandleFunc("POST /api/register", h.register)
+	mux.Handle("POST /api/register", h.guestOnly(h.register))
+	mux.Handle("POST /api/login", h.guestOnly(h.login))
+	mux.Handle("GET /api/me", h.WithSession(http.HandlerFunc(h.me)))
+	mux.HandleFunc("POST /api/logout", h.logout)
 }
 
 func (h *Handler) internalError(w http.ResponseWriter, r *http.Request, err error) {

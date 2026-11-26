@@ -12,9 +12,10 @@ import (
 )
 
 // New создаёт маршруты API и подключает общую проверку источника небезопасных HTTP-методов.
-func New(db *pgxpool.Pool, logger *slog.Logger) http.Handler {
+func New(db *pgxpool.Pool, logger *slog.Logger, cookieSecure bool) http.Handler {
 	mux := http.NewServeMux()
-	auth.New(db, logger).RegisterRoutes(mux)
+	accounts := auth.New(db, logger, cookieSecure)
+	accounts.RegisterRoutes(mux)
 	mux.HandleFunc("GET /api/health", func(w http.ResponseWriter, r *http.Request) {
 		// Проверяем доступность БД с коротким таймаутом, чтобы Compose быстро увидел сбой.
 		ctx, cancel := context.WithTimeout(r.Context(), 2*time.Second)

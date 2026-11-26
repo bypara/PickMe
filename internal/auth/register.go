@@ -24,7 +24,6 @@ type credentials struct {
 }
 
 func (h *Handler) register(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Cache-Control", "no-store")
 	input, ok := readCredentials(w, r)
 	if !ok {
 		return
